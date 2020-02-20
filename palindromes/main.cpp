@@ -33,7 +33,7 @@ void findPalindrome(vector<int> &C, string inputString, int m, int n, int k, boo
     {
         if (k % 2)
         {
-             k++;
+             steps++;
         }
         if (m + steps < n && m - steps + 1 > -1)
         {
@@ -65,10 +65,10 @@ void findPalindrome(vector<int> &C, string inputString, int m, int n, int k, boo
     }
     else
     {
-        if (m + steps < n  && m - steps > 0)
+        if (m + steps < n  && m - steps > -1)
         {
             bool isPal = 1;
-            int j = 1;
+            int j = 0;
             /* int palLength = 1; */
             while (isPal && j < steps)
             {
