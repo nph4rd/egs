@@ -4,24 +4,49 @@
 #include <algorithm>
 using namespace std; 
 
+void expandPalindrome(vector<int> &C, string inputString, int leftIndex, int rightIndex, int n)
+{
+    bool isPal = 1;
+    int e = 0;
+    while (isPal && rightIndex + e < n && leftIndex - e > -1)
+    {
+        if (inputString[rightIndex + e] == inputString[leftIndex - e])
+        {
+            C[rightIndex + e] = 1;
+            C[leftIndex - e] = 1;
+
+        }
+        else
+        {
+            isPal = 0; 
+        }
+        e++;
+    }
+}
+
 
 void findPalindrome(vector<int> &C, string inputString, int m, int n, int k, bool isEven)
 {
+    int steps = k / 2;
     vector<int> B = C;
     if (isEven)
     {
-        if (m < n - 1 && m > -1)
+        if (k % 2)
+        {
+             k++;
+        }
+        if (m + steps < n && m - steps + 1 > -1)
         {
             bool isPal = 1;
             int j = 0;
-            int palLength = 0;
-            while (isPal && m + j + 1 < n && m - j > -1)
+            /* int palLength = 0; */
+            /* int steps = k / 2; */ 
+            while (isPal &&  j < steps)
             {
-                if (inputString[m + j + 1] == inputString[m - j])
+                if (inputString[m + steps - j] == inputString[m - steps + 1 + j])
                 {
-                    palLength += 2;
-                    B[m + j + 1] = 1;
-                    B[m - j] = 1;    
+                    B[m - steps + j + 1] = 1;
+                    B[m + steps - j] = 1;    
                 }
                 else
                 {
@@ -29,27 +54,29 @@ void findPalindrome(vector<int> &C, string inputString, int m, int n, int k, boo
                 }
                 j++;
             } 
-            if (palLength >= k)
+            if (isPal)
             {
                 C = B;
+                int rightIndex = m + steps;
+                int leftIndex = m - steps + 1;
+                expandPalindrome(C, inputString, leftIndex, rightIndex, n);
             }
         }
     }
     else
     {
-        if (m < n - 1 && m > 0)
+        if (m + steps < n  && m - steps > 0)
         {
             bool isPal = 1;
             int j = 1;
-            int palLength = 1;
-            while (isPal && m + j < n && m - j > -1)
+            /* int palLength = 1; */
+            while (isPal && j < steps)
             {
-                if (inputString[m + j] == inputString[m - j])
+                if (inputString[m - steps + j] == inputString[m + steps  - j])
                 {
-                    palLength += 2;
                     B[m] = 1;
-                    B[m + j] = 1;
-                    B[m - j] = 1;    
+                    B[m - steps + j] = 1;
+                    B[m + steps - j] = 1;  
                 }
                 else
                 {
@@ -57,9 +84,12 @@ void findPalindrome(vector<int> &C, string inputString, int m, int n, int k, boo
                 }
                 j++;
             } 
-            if (palLength >= k)
+            if (isPal)
             {
                 C = B;
+                int rightIndex = m + steps;
+                int leftIndex = m - steps;
+                expandPalindrome(C, inputString, leftIndex, rightIndex, n);
             }
         }
     }
