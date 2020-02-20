@@ -105,7 +105,7 @@ int main()
     cin >> inputString;
     vector<int> C(N, 0);
     getAnswer(C, inputString, N, k);
-    answer = count(begin(C), end(C), 0);
+    answer = count(C.begin(), C.end(), 0);
     cout << answer  << endl;
 }
 
